@@ -1,0 +1,34 @@
+pipeline{
+    agent any
+    environment {
+        myvar="outer block"
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                checkout scm
+            }
+        }
+    stage('Build'){
+        steps{
+            sh "sh ani.sh"
+
+        }
+    }
+    stage('post'){
+        steps{
+            sh "echo mailing"
+        }
+    }
+    stage('printing environment variable'){
+        environment{
+            myvar="inner block"
+        }
+        steps{
+            sh 'echo "This is my variable=$myvar"'
+
+        }
+    }
+    
+    }
+}
