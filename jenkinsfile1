@@ -1,0 +1,39 @@
+pipeline{
+    //agent any
+    
+    agent{
+        label 'rhel'
+    }
+  
+    environment {
+        myvar="outer block"
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                checkout scm
+            }
+        }
+    stage('Build'){
+        steps{
+            sh "sh ani.sh"
+            sh "sleep 60"
+        }
+    }
+    stage('post'){
+        steps{
+            sh "echo mailing"
+        }
+    }
+    stage('printing environment variable'){
+        environment{
+            myvar="inner block"
+        }
+        steps{
+            sh 'echo "This is my variable=$myvar"'
+
+        }
+    }
+    
+    }
+}
